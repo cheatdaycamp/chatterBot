@@ -2,7 +2,6 @@ import requests
 import random
 import http.cookies
 import os
-from bottle import request
 
 
 boto_dictionaries = {
@@ -12,8 +11,7 @@ boto_dictionaries = {
                         'son of a motherless goat', 'son of a whore', 'twat'],
                 'greetings': ['Shalom', 'Hello', 'Howdy', 'Hey there', 'Ahoy', 'Shalom', 'Ala kefa', 'Long time no see',
                             'Well, look at you'],
-                'greetings_old_user':['Hello Old user'],
-                # 'greetings_old_user':  ["Nice try! But I know you are {0}, don't try to fool me", "Are you trying to confuse me {0}? How are you doing??"],
+                'greetings_old_user': ['Hello old user'],
                 'greet_b':  ['! It is a pleasure to meet you my friend!',
                              "! Nice to meet you!",
                              '! YEAH!!! bring the questions baby!!'
@@ -23,13 +21,14 @@ boto_dictionaries = {
                             "If you swear, your mouth only becomes dirtier",
                             "That's not nice from you",
                             "I should have followed Eliza's advice"],
-                'jokes':    ['joke', 'jokes', 'laugh', 'laughter', 'funny'],
+                'jokes':    ['joke', 'jokes', 'laugh', 'laughter', 'funny', 'joke?', 'jokes?', 'laugh?', 'funny?'],
                 'jokes_intro': ['Alright, here you have a joke: ',
                                 'Let me tell you a joke: ',
                                 'I am robot, but I am also funny. Check this out: '],
                 'random_answers': ['Yes', 'No', 'Definitely no', 'Maybe', 'Without any doubt.'],
                 'bye':      ['Bye', 'Bye bye', 'Bye, bye, bye', 'Goodbye', 'Have a great day', 'Hasta la vista'],
-                'weather': ['weather', 'today', 'umbrella', 'sunny', 'rainy'],
+                'weather': ['weather', 'today', 'umbrella', 'sunny', 'rainy', 'weather?', 'today?', 'umbrella?',
+                            'sunny?', 'rainy?'],
                 'general': ['I see', 'Tell me more', 'Interesting', 'Aha.', 'What else can you tell me?',
                             "It is always nice to know", "That is really smart from you.",
                             "Yeah, you are totally right!!!",]
@@ -78,7 +77,7 @@ def boto_logic(user_message):
         unknown_user()
     elif any(word in boto_values['input_message'] for word in boto_dictionaries.get('jokes')):
         handle_joke()
-    elif any(((word in boto_values['input_message']) or (word + "?" in boto_values['input_message'])) for word in boto_dictionaries.get('weather')):
+    elif any(word in boto_values['input_message'] for word in boto_dictionaries.get('weather')):
         weather()
     elif any(word in boto_values['input_message'] for word in [x.lower() for x in boto_dictionaries.get('bye')]):
         handle_goodbye()
