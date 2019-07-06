@@ -63,6 +63,14 @@ boto_values = {
                 'input_message': '',
                 }
 
+def getKeysByValues(dictOfElements, listOfValues):
+    listOfKeys = list()
+    listOfItems = dictOfElements.items()
+    for item in listOfItems:
+        if item[1] in listOfValues:
+            listOfKeys.append(item[0])
+    return  listOfKeys
+
 
 def random_value(key):
     return random.choice(boto_dictionaries.get(key))
@@ -115,7 +123,22 @@ def handle_goodbye():
 
 def handle_sentence():
     boto_values['answer'] = random_value('general')
-    boto_values['animation'] = random.choice(list(boto_feelings.keys()))
+    list_intersections = []
+    word = boto_values['input_message'][0]
+    founds = []
+    for item in boto_feelings:
+        for k, v in boto_feelings.items():
+            list_intersections.append([k, v])
+    for word in boto_values['input_message']:
+        for subitem in list_intersections:
+            for a in subitem:
+                if word in a and (a not in founds):
+                    founds.append(subitem[0])
+    founds = list(dict.fromkeys(founds))
+    if founds == []:
+        boto_values['animation'] = random.choice(list(boto_feelings.keys()))
+    else:
+        boto_values['animation'] = random.choice(list(founds))
 
 
 def handle_question():
