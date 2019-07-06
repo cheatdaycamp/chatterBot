@@ -119,12 +119,14 @@ def handle_joke():
 
 def handle_goodbye():
     boto_values['answer'] = random_value('bye') + "! :)"
-    boto_values['animation'] = random.choice(list(boto_feelings.keys()))
+    boto_values['animation'] = 'takeoff'
 
 def handle_sentence():
     boto_values['answer'] = random_value('general')
+    boto_values['animation'] = get_proper_animation()
+
+def get_proper_animation():
     list_intersections = []
-    word = boto_values['input_message'][0]
     founds = []
     for item in boto_feelings:
         for k, v in boto_feelings.items():
@@ -136,14 +138,13 @@ def handle_sentence():
                     founds.append(subitem[0])
     founds = list(dict.fromkeys(founds))
     if founds == []:
-        boto_values['animation'] = random.choice(list(boto_feelings.keys()))
-    else:
-        boto_values['animation'] = random.choice(list(founds))
+        return random.choice(list(boto_feelings.keys()))
+    return random.choice(list(founds))
 
 
 def handle_question():
     boto_values['answer'] = random_value('random_answers')
-    boto_values['animation'] = random.choice(list(boto_feelings.keys()))
+    boto_values['animation'] = get_proper_animation()
 
 
 def known_user():
