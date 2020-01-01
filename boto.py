@@ -1,9 +1,11 @@
-"""
-This is the template server side for ChatBot
-"""
-from bottle import route, run, template, static_file, request
+from bottle import route, template, static_file, request, run, debug
 import json
 from boto_functions import *
+from sys import argv
+
+DEBUG = os.environ.get("DEBUG")
+bottle.debug(False)
+
 
 @route('/', method='GET')
 def index():
@@ -33,13 +35,17 @@ def stylesheets(filename):
     return static_file(filename, root='css')
 
 
-@route('/images/<filename:re:.*\.(jpg|png|gif|ico)>', method='GET')
+@route('/img/<filename:re:.*\.(jpg|png|gif|ico)>', method='GET')
 def images(filename):
-    return static_file(filename, root='images')
+    return static_file(filename, root='img')
 
 
 def main():
-    run(host='localhost', port=7000)
+    if DEBUG:
+        bottle.run(host='localhost', port=7000)
+    else:
+        bottle.run(host='0.0.0.0', port=argv[1])
+
 
 if __name__ == '__main__':
     main()
